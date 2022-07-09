@@ -14,5 +14,10 @@ const db = mysql.createConnection(
     }
 );
 
-inquirer
+function init() {
+    inquirer
     .prompt(menuQ)
+    .then((ans) => console.log(ans))
+}
+
+init()
