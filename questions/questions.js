@@ -9,8 +9,8 @@ const menuQ = {
             'Add Role',
             'View All Departments',
             'Add Department',
-            'Quit',
-            'View All Employees'
+            'View All Employees',
+            'Quit'
         ]
     };
 
