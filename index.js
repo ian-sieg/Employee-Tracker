@@ -41,22 +41,22 @@ function init() {
                 addEmpl();
                 break;
             case 'Update Employee Role':
-                console.log('whoops redo')
+                updRole();
                 break;
             case 'View All Roles':
-                console.log('whoops redo')
+                allRole();
                 break;
             case 'Add Role':
                 addRoles();
                 break;
             case 'View All Departments':
-                    console.log('whoops redo')
-                    break;
+                allDept();
+                break;
             case 'Add Department':
                 addDepartment();
                 break;
             case 'View All Employees':
-                console.log('whoops redo')
+                allEmp();
                 break;
             case 'Quit':
                 console.log('Goodbye')
@@ -147,7 +147,7 @@ function addRoles() {
             init()
         })
     })
-}
+};
 
 //add employee
 function addEmpl() {
@@ -160,8 +160,8 @@ function addEmpl() {
 
     let mngArr = []
     db.query('SELECT * FROM employee', (err, res) => {
-        res.forEach(employee => {
-            mngArr.push(`${employee.first_name} ${employee.last_name}`)
+        res.forEach(emp => {
+            mngArr.push(`${emp.first_name} ${emp.last_name}`)
         })
     })
 
@@ -212,5 +212,69 @@ function addEmpl() {
             console.table(res)
             init()
         })
+    })
+};
+
+//update empl role
+function updRole() {
+    let roleArr = []
+    db.query('SELECT * FROM roles', (err, res) => {
+        res.forEach(role => {
+            roleArr.push(role.title)
+        })
+    })
+
+    let empArr = []
+    db.query('SELECT * FROM employee', (err, res) => {
+        res.forEach(emp => {
+            empArr.push(`${emp.first_name} ${emp.last_name}`)
+        })
+    })
+
+    inquirer
+    .prompt([
+        {
+            type: 'list',
+            name: 'updEmpRole',
+            message: "Which employee's role do you want to update?",
+            choices: empArr
+        },
+        {
+            type: 'list',
+            name: 'newRole',
+            message: "Which role do you want to assign the selected employee?",
+            choices: roleArr
+        },
+    ])
+    .then(ans => {
+        db.query(`UPDATE employee SET role_id = ${roleArr.indexOf(ans.newRole)+1} WHERE id = ${empArr.indexOf(ans.updEmpRole)+1}`)
+        db.query('SELECT * FROM employee', (err, res) => {
+            console.table(res)
+            init()
+        })
+    })
+};
+
+//view all roles
+function allRole() {
+    db.query(`SELECT * FROM roles`, (err, res) => {
+        console.table(res)
+        init()
+    })
+}
+
+//view all departments
+function allDept() {
+    db.query(`SELECT * FROM department`, (err, res) => {
+        console.table(res)
+        init()
+    })
+}
+
+//view all employees
+function allEmp() {
+    db.query(`SELECT * FROM employee`, (err, res) => {
+        console.table(res)
+        init()
     })
 }
