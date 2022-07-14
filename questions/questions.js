@@ -1,3 +1,14 @@
+const mysql = require('mysql2');
+
+const db = mysql.createConnection(
+    {
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'employeecms_db'
+    }
+);
+
 const menuQ = {
         type: 'list',
         name: 'mainMenu',
@@ -14,20 +25,7 @@ const menuQ = {
         ]
     };
 
-const addDept = {
-    type: 'input',
-    name: 'addDept',
-    message: 'What is the name of the department?',
-    validate: (ans) => {
-        if(ans !== '') {
-            return true;
-        } else {
-            console.error('The department name cannot be blank');
-            return false;
-        };
-    }
-};
-//added ${addDept} to the database
+
 
 // const addRole = [
 //     {
@@ -60,10 +58,10 @@ const addDept = {
 //         type: 'list',
 //         name: 'roleDept',
 //         message: 'Which department does the role belong to?',
-//         choices: [`${departments}`] //ADD ALL DEPARTMENTS IN THE DATABASE HERE
+//         choices: deptArr //ADD ALL DEPARTMENTS IN THE DATABASE HERE
 //     }
 // ];
-// //Added &{role} to the database
+
 
 // const addEmpl = [
 //     {
@@ -120,8 +118,3 @@ const addDept = {
 //         choices: [`${roles}`] //ADD ALL ROLES IN THE DATABASE HERE
 //     },
 // ]
-
-module.exports = {
-    menuQ,
-    addDept,
-}

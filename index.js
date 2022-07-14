@@ -1,8 +1,6 @@
 const table = require('console.table')
 const inquirer = require('inquirer')
 const mysql = require('mysql2');
-const {menuQ, addDept} = require('./questions/questions');
-const {addDepartment} = require('./helpers/helpers')
 
 const db = mysql.createConnection(
     {
@@ -15,42 +13,111 @@ const db = mysql.createConnection(
 
 db.connect((err) => {
     if (err) throw err;
-    function init() {
-        inquirer
-        .prompt(menuQ)
-        .then(ans => {
-            switch (ans.mainMenu) {
-                case 'Add Employee':
-                    console.log('added employee duh')
-                    break;
-                case 'Update Employee Role':
-                    console.log('whoops redo')
-                    break;
-                case 'View All Roles':
-                    console.log('whoops redo')
-                    break;
-                case 'Add Role':
-                    console.log('whoops redo')
-                    break;
-                case 'View All Departments':
-                        console.log('whoops redo')
-                        break;
-                case 'Add Department':
-                    inquirer
-                    .prompt(addDept)
-                    .then(ans => {
-                        addDepartment(ans);
-                    })
-                    break;
-                case 'View All Employees':
-                    console.log('whoops redo')
-                    break;
-                case 'Quit':
-                    console.log('Goodbye')
-                    db.end()
-                    break;
-            }
-        })
-    }
     init()
 })
+
+function init() {
+    inquirer
+    .prompt([
+        {
+            type: 'list',
+            name: 'mainMenu',
+            message: 'What would you like to do?',
+            choices: [
+                'Add Employee',
+                'Update Employee Role',
+                'View All Roles',
+                'Add Role',
+                'View All Departments',
+                'Add Department',
+                'View All Employees',
+                'Quit'
+            ]
+        }
+    ])
+    .then(ans => {
+        
+    })
+}
+
+//add dept
+function addDepartment() {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'addDept',
+                message: 'What is the name of the department?',
+                validate: (ans) => {
+                    if(ans !== '') {
+                        return true;
+                    } else {
+                        console.error('The department name cannot be blank');
+                        return false;
+                    };
+                }
+            }
+        ])
+        .then(ans => {
+            db.query(`INSERT INTO department (dept_name) VALUES ("${ans.addDept}");`, (err, res) => {
+                if(err) throw err;
+            })
+            db.query('SELECT * FROM department', (err, res) => {
+                console.table(res)
+            })
+        })
+        .then(init())
+};
+
+//add roles
+function addRoles() {
+    let deptArr = []
+    db.query('SELECT * FROM department', (err, res) => {
+        res.forEach(dep => {
+            deptArr.push(dep.dept_name)
+        })
+    })
+    
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'addRole',
+                message: 'What is the name of the role?',
+                validate: (ans) => {
+                    if(ans !== '') {
+                        return true;
+                    } else {
+                        console.error('The role name cannot be blank');
+                        return false;
+                    };
+                }
+            },
+            {
+                type: 'input',
+                name: 'roleSal',
+                message: 'What is the salary of the role?',
+                validate: (ans) => {
+                    if(ans !== '') {
+                        return true;
+                    } else {
+                        console.error('The salary cannot be blank');
+                        return false;
+                    };
+                }
+            },
+            {
+                type: 'list',
+                name: 'roleDept',
+                message: 'Which department does the role belong to?',
+                choices: deptArr
+            }
+        ])
+        .then(ans => {
+            db.query(`INSERT INTO roles (title, salary, dept_id) VALUES ("${ans.addRole}", ${ans.roleSal}, ${ans.roleDept})`)
+        })
+        .then(`SELECT * FROM roles`, (err, res) => {
+            console.table(res)
+        })
+    init()
+}
