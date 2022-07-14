@@ -26,95 +26,80 @@ const menuQ = {
     };
 
 
+const addEmpl = [
+    {
+        type: 'input',
+        name: 'fName',
+        message: "What is the employee's first name?",
+        validate: (ans) => {
+            if(ans !== '') {
+                return true;
+            } else {
+                console.error('Their first name cannot be blank');
+                return false;
+            };
+        }
+    },
+    {
+        type: 'input',
+        name: 'lName',
+        message: "What is the employee's last name?",
+        validate: (ans) => {
+            if(ans !== '') {
+                return true;
+            } else {
+                console.error('Their last name cannot be blank');
+                return false;
+            };
+        }
+    },
+    {
+        type: 'list',
+        name: 'emplRole',
+        message: "What is the employee's role?",
+        choices: [`${roles}`] //ADD ALL ROLES IN THE DATABASE HERE
+    },
+    {
+        type: 'list',
+        name: 'emplSup',
+        message: "Who is the employee's manager?",
+        choices: ['none',`${employees}`] //ADD ALL EMPLOYEES IN THE DATABASE HERE
+    }
+];
 
-// const addRole = [
-//     {
-//         type: 'input',
-//         name: 'addRole',
-//         message: 'What is the name of the role?',
-//         validate: (ans) => {
-//             if(ans !== '') {
-//                 return true;
-//             } else {
-//                 console.error('The role name cannot be blank');
-//                 return false;
-//             };
-//         }
-//     },
-//     {
-//         type: 'input',
-//         name: 'roleSal',
-//         message: 'What is the salary of the role?',
-//         validate: (ans) => {
-//             if(ans !== '') {
-//                 return true;
-//             } else {
-//                 console.error('The salary cannot be blank');
-//                 return false;
-//             };
-//         }
-//     },
-//     {
-//         type: 'list',
-//         name: 'roleDept',
-//         message: 'Which department does the role belong to?',
-//         choices: deptArr //ADD ALL DEPARTMENTS IN THE DATABASE HERE
-//     }
-// ];
+const updRole = [
+    {
+        type: 'list',
+        name: 'updEmpRole',
+        message: "Which employee's role do you want to update?",
+        choices: [`${employees}`] //ADD ALL EMPLOYEES IN THE DATABASE HERE
+    },
+    {
+        type: 'list',
+        name: 'newRole',
+        message: "Which role do you want to assign the selected employee?",
+        choices: [`${roles}`] //ADD ALL ROLES IN THE DATABASE HERE
+    },
+]
 
 
-// const addEmpl = [
-//     {
-//         type: 'input',
-//         name: 'fName',
-//         message: "What is the employee's first name?",
-//         validate: (ans) => {
-//             if(ans !== '') {
-//                 return true;
-//             } else {
-//                 console.error('Their first name cannot be blank');
-//                 return false;
-//             };
-//         }
-//     },
-//     {
-//         type: 'input',
-//         name: 'lName',
-//         message: "What is the employee's last name?",
-//         validate: (ans) => {
-//             if(ans !== '') {
-//                 return true;
-//             } else {
-//                 console.error('Their last name cannot be blank');
-//                 return false;
-//             };
-//         }
-//     },
-//     {
-//         type: 'list',
-//         name: 'emplRole',
-//         message: "What is the employee's role?",
-//         choices: [`${roles}`] //ADD ALL ROLES IN THE DATABASE HERE
-//     },
-//     {
-//         type: 'list',
-//         name: 'emplSup',
-//         message: "Who is the employee's manager?",
-//         choices: ['none',`${employees}`] //ADD ALL EMPLOYEES IN THE DATABASE HERE
-//     }
-// ];
+// beautiful switch cases
 
-// const updRole = [
-//     {
-//         type: 'list',
-//         name: 'updEmpRole',
-//         message: "Which employee's role do you want to update?",
-//         choices: [`${employees}`] //ADD ALL EMPLOYEES IN THE DATABASE HERE
-//     },
-//     {
-//         type: 'list',
-//         name: 'newRole',
-//         message: "Which role do you want to assign the selected employee?",
-//         choices: [`${roles}`] //ADD ALL ROLES IN THE DATABASE HERE
-//     },
-// ]
+// if (ans.mainMenu === 'Add Employee') {
+//     console.log('added employee')
+// } else if (ans.mainMenu === 'Update Employee Role') {
+//     console.log('updated role')
+// } else if (ans.mainMenu === 'View All Roles') {
+//     console.log('viewed all role')
+// } else if (ans.mainMenu === 'Add Role') {
+//     addRoles()
+// } else if (ans.mainMenu === 'View All Departments') {
+//     console.log('viewed all dept')
+// } else if (ans.mainMenu === 'Add Department') {
+//     addDepartment()
+// } else if (ans.mainMenu === 'View All Employees') {
+//     console.log('Viewed all empl')
+// } else if (ans.mainMenu === 'Quit') {
+//     console.log('updated Goodbye')
+//     db.end()
+// }
