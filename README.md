@@ -16,3 +16,5 @@ To initialize the app type:
 node index.js
 ```
 ## Video Demo
+
+https://user-images.githubusercontent.com/98928887/182039046-b6a24715-5ce0-43fc-aaf0-fa481fefc89a.mp4
