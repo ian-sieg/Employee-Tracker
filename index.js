@@ -1,6 +1,6 @@
-const table = require('console.table')
 const inquirer = require('inquirer')
 const mysql = require('mysql2');
+const figlet = require('figlet')
 
 const db = mysql.createConnection(
     {
@@ -13,7 +13,24 @@ const db = mysql.createConnection(
 
 db.connect((err) => {
     if (err) throw err;
-    init()
+    figlet.text('Employee Tracker', {
+            font: 'Big Money-nw',
+            horizontalLayout: 'default',
+            verticalLayout: 'default',
+            width: 80,
+            whitespaceBreak: true
+        }, (err, data) => {
+            if (err) {
+                console.log('Something went wrong...')
+                console.dir(err)
+                return
+            }
+            console.log('\n'+data)
+        }
+    )
+    setTimeout(() => {
+        init()
+    }, 1000);
 })
 
 function init() {
